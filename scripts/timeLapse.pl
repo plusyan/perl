@@ -6,7 +6,7 @@ use warnings;
 use feature 'say';
 use gphoto2::control;
 use Data::Dumper;
-use File::Path;
+use File::Path 'make_path';
 
 my $picturesCounter=10000;
 my $picturesPreffix="gerena-";
@@ -18,13 +18,13 @@ my @bracketedFotos=('-3','-2.0','-1.0','1.0','2','3','0'); # NOTE: The normal pi
 
 say "Checking outpur Dir: $outputDir";
 unless (-d $outputDir){
-	File::Path->make_path($outputDir);
+	make_path($outputDir);
 	die "Failed to create dir: $outputDir" unless (-d $outputDir);
 	say "$outputDir created !";
 }
 no File::Path;
 say "Done !";
-exit 7;
+
 my $g=gphoto2::control->new;
 
 my $devices=$g->getConnectedDevices;

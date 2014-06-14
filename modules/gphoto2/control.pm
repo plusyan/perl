@@ -5,6 +5,7 @@ use warnings;
 use feature 'say';
 package gphoto2::control;
 use Data::Dumper;
+
 use POSIX 'strftime';
 my $lastError=undef;
 sub getLastError{return $lastError};
@@ -94,9 +95,6 @@ sub getBatteryLevel{
 		return undef;
 }
 
-
-
-
 sub getConnectedDevices{
 	my $self=shift;
 	my %result=();
@@ -131,7 +129,6 @@ sub setDevice{
 	}
 	$self->_setConfig('device',$device);
 }
-
 
 sub setPicturePrefix{
 	my ($self,$prefix)=@_;	
@@ -222,9 +219,6 @@ sub takeBracketedShots{
 	}
 	# Check if we have digits for bracketing.
 	say "Taking pictures with the following compensations:  (@stops)";
-
-	
-	# Iliyan
 	
 	unless ($device){
 		$device=$self->_getConfigParameter('device');
@@ -266,30 +260,6 @@ sub takeBracketedShots{
 	$c++;
 	$self->_setConfig('picturesCounter',$c);
 	
-}
-
-1;
-__DATA__
-
-
-sub takeMultipleShots{
-	my ($self,$device)=@_;
-}
-
-sub setCameraExposureCompensation{
-	my ($self,$device,$compensation)=@_;
-}
-
-sub getCameraCompensations{
-	my ($self,$device)=@_;
-}
-
-sub autofocus{
-	my ($self,$device)=@_;
-}
-
-sub execCustomCommand{
-	my ($self,$command)=@_;
 }
 
 1;
