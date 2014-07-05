@@ -1,0 +1,88 @@
+Copyright (C) 2006 Instituto Tecnologico y de Estudios Superiores de Monterrey.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+I. GENERAL INFORMATION:
+----------------------------------------------------------------------------
+
+sitemap_gen.pl
+
+version 1.0
+
+The sitemap_gen.pl script analyzes your web server and generates one or more 
+Sitemap files.  These files are XML listings of content you make available on 
+your web server.  The files can be directly submitted to search engines as 
+hints for the search engine web crawlers as they index your web site.  This 
+can result in better coverage of your web content in search engine indices, 
+and less of your bandwidth spent doing it.
+
+Additional information about what a sitemap is, the protocol, and FAQ can be 
+found at 
+ http://www.sitemaps.org
+
+II. USAGE:
+----------------------------------------------------------------------------
+perl sitemap_gen.pl --config=config.xml [--help] [--testing]
+----------------------------------------------------------------------------
+
+ --testing 
+	If you're testing your configuration and are not ready to submit your Sitemap, 
+	this parameter (--testing) will prevent Sitemap Generator from contacting Google:
+	
+	i.e.
+	Windows
+	c:\> perl sitemap_gen.pl --config=config.xml --testing
+	
+	Unix
+	[admin@admin html]$ perl sitemap_gen.pl --config=config.xml --testing
+
+In order to execute the tool a configuration file must be created. Directions 
+on how to create it can be found here: 
+ https://www.google.com/webmasters/tools/docs/en/sitemap-generator.html#config.
+
+III. REQUIREMENTS:
+----------------------------------------------------------------------------
+
+The script requires perl 5.8.0 or higher.
+It also requires the following perl modules installed on your machine:
+
+1.  Digest::MD5
+2.  Encode
+3.  File::Find
+4.  File::Glob
+5.  File::Spec
+6.  Getopt::Long
+7.  LWP::Simple
+8.  URI::URL
+9.  URI::Escape
+10. XML::SAX
+
+Additionaly, it is possible that you require some of the following "on-demand" 
+perl libraries. In other words, these libraries are needed only if you use some 
+specific funcionallity of this script:
+
+11. Compress::Zlib
+  - This module is needed if you specify an input or output file that is compressed using gzip. 
+  - For example: store_into="/var/www/docroot/sitemap.xml.gz"
+12. IDNA::Punycode
+  - This module is needed if you use an International Domain Name (IDN):
+  - For example: http://www.güero.com
+13. Win32::MBCS
+  - This module is needed if you run this script in a Win32 platform. 
+
+For more information about how to install Perl Libraries see the following 
+CPAN documentation:
+http://www.cpan.org/misc/cpan-faq.html#How_install_Perl_modules
+
+Existing limitations about this version:
+The script has been tested only in UNIX and Windows platforms.

@@ -1,0 +1,7 @@
+PKG="PerlSMGen"
+Name="Perl Sitemap Generator"
+Version="1.0"
+Desc="Script that creates a sitemap for your site using the Sitemap Protocol"
+Homepage="http://code.google.com/p/perlsitemapgenerator/"
+Author="Instituto Tecnologico y de Estudios Superiores de Monterrey"
+License="Apache 2.0"

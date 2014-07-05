@@ -64,10 +64,13 @@ sub new {
 sub _execCommand{
 	my ($self,@command)=@_;
 	# TODO: Check if the device is sleeping. If so, wake it up (if possible).
+	# TODO: --camera does NOT work, if --port is not specified.
+	# Use --port istead of --camera
 	
 	unshift @command,'gphoto2';
-	if ($$self{device}){
+	if ($$self{device} && $$self{port}){
 		push @command,'--camera=' . '"' . $$self{device}. '"';
+		push @command,'--port=' . '"' . $$self{port}. '"';
 	}
 	
 	say "Command: @command";
@@ -122,12 +125,13 @@ sub getConnectedDevices{
 }
 
 sub setDevice{
-	my ($self,$device)=@_;
-	unless ($device){
-		_setError("No device given.");
+	my ($self,$device,$port)=@_;
+	unless ($device && $port){
+		_setError("No device  or port given.");
 		return undef;
 	}
 	$self->_setConfig('device',$device);
+	$self->_setConfig('port',$port);
 }
 
 sub setPicturePrefix{
@@ -213,19 +217,17 @@ sub getLastPicturePath{
 }
 
 sub takeBracketedShots{
-	my ($self,$device,@stops)=@_;
+	my ($self,@stops)=@_;
 	if ($#stops==-1){
 		$self->_setError("No stops sent for bracketed photos !");
 	}
 	# Check if we have digits for bracketing.
 	say "Taking pictures with the following compensations:  (@stops)";
 	
+	my $device=$self->_getConfigParameter('device');
 	unless ($device){
-		$device=$self->_getConfigParameter('device');
-		unless ($device){
-			$self->_setError("No device given !");
-			return undef;
-		}
+		$self->_setError("No device given !");
+		return undef;
 	}
 	
 	########################## Take The Picture Here #################################
@@ -244,7 +246,7 @@ sub takeBracketedShots{
 		my $counter=$self->_getConfigParameter('picturesCounter');
 		my $filename=undef;
 		$filename=$prefix if $prefix;
-		$filename .=$counter ."[$_][$compensation]" ;
+		$filename .=$counter ."[$compensation]" ;
 		
 		#TODO: Set the bracketed exposure somewhere here !
 		

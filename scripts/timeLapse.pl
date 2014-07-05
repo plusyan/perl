@@ -12,9 +12,9 @@ my $picturesCounter=10000;
 my $picturesPreffix="gerena-";
 my $picturesSuffix="-test.CR2";
 my $cameraModel="Canon EOS 40D";
-my $outputDir="/data/tmp/timeLapse/test-hdr-new";
+my $outputDir="/data/tmp/timeLapse/test-hdr-05";
 my $sleepTime=5;
-my @bracketedFotos=('-3','-2.0','-1.0','1.0','2','3','0'); # NOTE: The normal picture is the last because we need it to calibrate the future camera adjustments.
+my @bracketedFotos=('-3','-2','-1.0','1.0','2','3','0'); # NOTE: The normal picture is the last because we need it to calibrate the future camera adjustments.
 
 say "Checking outpur Dir: $outputDir";
 unless (-d $outputDir){
@@ -36,7 +36,7 @@ my $port=undef;
 foreach (keys %$devices){
 	# TODO: get this from web interface !
 	if ($$devices{$_}=~m/$cameraModel/i){
-		$g->setDevice("$$devices{$_}") or
+		$g->setDevice($$devices{$_},$_) or
 			die $g->getLastError;
 		$g->setOutputDir($outputDir) or
 			die $g->getLastError;
@@ -52,7 +52,8 @@ foreach (keys %$devices){
 			#~ die $g->getLastError unless ($g->takeSingleShot());
 			die $g->getLastError unless ($g->takeBracketedShots(@bracketedFotos));
 			print Dumper $g;
-			
+			say "BATTERY LEVEL: " . $g->getBatteryLevel;
+			say "========================";
 			last if ($picturesCounter eq $_);
 			sleep $sleepTime;
 		}
